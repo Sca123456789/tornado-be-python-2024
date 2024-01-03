@@ -35,10 +35,24 @@
 # learn_to_code()
 
 
-def salary():
-    salary = 10
-    hours_worked = int(input("hwo long did you worked: "))
-    result = ((hours_worked - 40) * 15 + (40 * 10))
-    if 40 < hours_worked:
-        print(result)
-salary()
+# def salary():
+#     salary = 10
+#     hours_worked = int(input("hwo long did you worked: "))
+#     result = ((hours_worked - 40) * 15 + (40 * 10))
+#     if 40 < hours_worked:
+#         print(result)
+# salary()
+
+
+# def calculate_salary():
+#     try:
+#         salary = float(input("Enter the salary: "))
+#         result = salary * 1.1 
+#         print(f"The calculated salary is: {result}")
+#     except ValueError:
+#         print("Error: Please enter a valid numeric value for the salary.")
+
+
+# calculate_salary()
+
+

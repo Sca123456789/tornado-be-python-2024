@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'pages',
     'django_browser_reload',
     'widget_tweaks',
+    'articles.apps.ArticlesConfig'
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 TAILWIND_APP_NAME = 'theme'
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+TIME_ZONE = 'Asia/Ulaanbaatar'

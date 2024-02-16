@@ -1,12 +1,16 @@
 {% extends 'base.html' %}
-{% block title %} Newspaper App {% endblock title %}
+{% load widget_tweaks %}
+{% block title %} Log In {% endblock title %}
 
 {% block content %}
 
-<h2>Log In</h2>
-<form method="post"> {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Log In</button>
+<h2 class="text-3xl font-semibold m-3">Log In</h2>
+<form method="post" class="flex flex-col m-2"> {% csrf_token %}
+    {% render_field form.username class="bg-gray-50 m-2 rounded-lg" %}
+    {% render_field form.password type="password" class="ng-gray-50 m-2 rounded-lg" %}
+<div>
+    <button type="submit" class="border-2 rounded-lg pr-3 pl-3 bg-green-400 mt-2">Log In</button>
+</div>
 </form>
-
+    <p><a href="{% url 'password_reset' %}" >Forgot your password</a></p>
 {% endblock content %}

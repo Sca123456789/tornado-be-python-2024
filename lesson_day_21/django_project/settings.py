@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'pages',
     'django_browser_reload',
     'widget_tweaks',
-    'articles.apps.ArticlesConfig'
+    'articles.apps.ArticlesConfig',
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
@@ -139,3 +140,4 @@ TAILWIND_APP_NAME = 'theme'
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 TIME_ZONE = 'Asia/Ulaanbaatar'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

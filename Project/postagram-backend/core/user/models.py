@@ -1,9 +1,12 @@
 import uuid
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.http import Http404
-
 
 
 class UserManager(BaseUserManager):
@@ -13,23 +16,28 @@ class UserManager(BaseUserManager):
             return instance
         except (ObjectDoesNotExist, ValueError, TypeError):
             raise Http404
-    
+
     def create_user(self, username, email, password=None, **kwargs):
         """Create and return a `User` with an email, phone number,
         username, and password."""
         if username is None:
-            raise TypeError('Users must have a username.')
+            raise TypeError("Users must have a username.")
         if email is None:
-            raise TypeError('Users must have an email.')
+            raise TypeError("Users must have an email.")
         if password is None:
-            raise TypeError('User must have a password.')
-        user = self.model(username=username, email=self.normalize_email(email), **kwargs)
+            raise TypeError("User must have a password.")
+        user = self.model(
+            username=username, email=self.normalize_email(email), **kwargs
+        )
         user.set_password(password)
         user.save(using=self._db)
         return user
 
+
 class User(AbstractBaseUser, PermissionsMixin):
-    public_id = models.UUIDField(db_index=True, unique=True, default=uuid.uuid4, editable=False)
+    public_id = models.UUIDField(
+        db_index=True, unique=True, default=uuid.uuid4, editable=False
+    )
     username = models.CharField(db_index=True, max_length=255, unique=True)
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
@@ -38,8 +46,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now=True)
     updated = models.DateTimeField(auto_now_add=True)
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["username"]
     objects = UserManager()
 
     def __str__(self):
@@ -48,6 +56,3 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def name(self):
         return f"{self.first_name} {self.last_name}"
-
-
-

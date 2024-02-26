@@ -7,9 +7,10 @@ from django.contrib.auth.models import (
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.http import Http404
+from core.abstract.models import AbstractModel, AbstractManager
 
+class UserManager(BaseUserManager, AbstractManager):
 
-class UserManager(BaseUserManager):
     def get_object_by_public_id(self, public_id):
         try:
             instance = self.get(public_id=public_id)
@@ -33,8 +34,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser,  AbstractModel , PermissionsMixin):
     public_id = models.UUIDField(
         db_index=True, unique=True, default=uuid.uuid4, editable=False
     )
@@ -56,3 +56,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def name(self):
         return f"{self.first_name} {self.last_name}"
+
+    # # Define groups and user_permissions within the User class
+    # groups = models.ManyToManyField('auth.Group', related_name='core_user_groups')
+    # user_permissions = models.ManyToManyField('auth.Permission', related_name='core_user_permissions')
+
+    # class Meta:
+    #     # Provide custom table name to resolve the clash
+    #     db_table = 'core_user'
+    #     permissions = [
+    #         ("can_drive", "Can drive"),
+    #         ("can_fly", "Can fly"),
+    #     ]

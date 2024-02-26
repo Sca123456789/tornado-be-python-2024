@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     "core",
     "core.user",
-    "core.auth"
+    "core.auth",
+    "core.post",
 ]
 
 MIDDLEWARE = [
@@ -79,17 +80,22 @@ WSGI_APPLICATION = "CoreRoot.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": "postgres",
+#         "USER": "postgres.uknjnofolikaaujcwutn",
+#         "PASSWORD": "moNYHp09yGtBqaFY",
+#         "HOST": "aws-0-ap-southeast-1.pooler.supabase.com",
+#         "PORT": "5432",
+#     }
+# }
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": "postgres",
-        "USER": "postgres.uknjnofolikaaujcwutn",
-        "PASSWORD": "moNYHp09yGtBqaFY",
-        "HOST": "aws-0-ap-southeast-1.pooler.supabase.com",
-        "PORT": "5432",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": "postagram.sqlite",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -133,6 +139,7 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "core_user.User"
+# AUTH_USER_MODEL = "core_user.User"
 APPEND_SLASH = False
 
 # REST_FRAMEWORK = {
@@ -143,11 +150,11 @@ APPEND_SLASH = False
 # }
 
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_FILTER_BACKENDS':
-    ['django_filters.rest_framework.DjangoFilterBackend'],
+# REST_FRAMEWORK = {
+#     'DEFAULT_AUTHENTICATION_CLASSES': (
+#         'rest_framework_simplejwt.authentication.JWTAuthentication',
+#     ),
+#     'DEFAULT_FILTER_BACKENDS':
+#     ['django_filters.rest_framework.DjangoFilterBackend'],
    
-}
+# }

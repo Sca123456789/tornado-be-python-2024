@@ -4,6 +4,7 @@ from django.contrib.auth.models import (
     BaseUserManager,
     PermissionsMixin,
 )
+from django.contrib.auth.models import BaseUserManager
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from django.http import Http404
@@ -33,6 +34,7 @@ class UserManager(BaseUserManager, AbstractManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
+        
 
 class User(AbstractBaseUser,  AbstractModel , PermissionsMixin):
     public_id = models.UUIDField(
@@ -44,6 +46,8 @@ class User(AbstractBaseUser,  AbstractModel , PermissionsMixin):
     email = models.EmailField(db_index=True, unique=True)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
     created = models.DateTimeField(auto_now=True)
     updated = models.DateTimeField(auto_now_add=True)
     USERNAME_FIELD = "email"
@@ -68,3 +72,6 @@ class User(AbstractBaseUser,  AbstractModel , PermissionsMixin):
     #         ("can_drive", "Can drive"),
     #         ("can_fly", "Can fly"),
     #     ]
+
+
+

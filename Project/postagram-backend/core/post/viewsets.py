@@ -5,16 +5,15 @@ from core.abstract.viewsets import AbstractViewSet
 from core.post.models import Post
 from core.post.serializers import PostSerializer
 from core.auth.permissions import UserPermission
-
-
+from rest_framework.decorators import action
 
 
 class PostViewSet(AbstractViewSet):
-    http_method_names = ("post", "get")
     permission_classes = (IsAuthenticated,)
     serializer_class = PostSerializer
-    permission_classes = (UserPermission,)  
+    permission_classes = (UserPermission,)
     http_method_names = ('post', 'get', 'put', 'delete')
+
     def get_queryset(self):
         return Post.objects.all()
 
@@ -28,4 +27,20 @@ class PostViewSet(AbstractViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    @action(methods=['post'], detail=True)
+    def like(self, request, *args, **kwargs):
+        post = self.get_object()
+        user = self.request.user
+        user.like_post(post)
+        serializer = PostSerializer(post)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @action(methods=['post'], detail=True)
+    def remove_like(self, request, *args, **kwargs):
+        post = self.get_object()
+        user = self.request.user
+        user.remove_like_post(post)
+        serializer = PostSerializer(post)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 

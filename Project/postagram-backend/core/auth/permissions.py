@@ -9,13 +9,13 @@ class UserPermission(BasePermission):
         # For non-anonymous users, only allow access if they are authenticated
         return bool(request.user and request.user.is_authenticated)
 
-    def has_permission(self, request, view):
-        # Check if the view basename is 'post'
-        if view.basename in ["post"]:
-            # For 'post' views, handle permissions differently
-            if request.user.is_anonymous:
-                # If the request user is anonymous and the method is safe, allow access
-                return request.method in SAFE_METHODS
-            # For non-anonymous users, only allow access if they are authenticated
+        if view.basename in ["post-comment"]:
+            if request.method in ['DELETE']:
+                return bool(request.user.is_superuser or request.user in [obj.author, obj.post.author])
             return bool(request.user and request.user.is_authenticated)
+
+    def has_permission(self, request, view):
+        return bool(request.user and request.user.is_authenticated)
+        # For other views, deny permission
         return False
+

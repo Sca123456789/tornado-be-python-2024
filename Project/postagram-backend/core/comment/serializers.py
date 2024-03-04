@@ -23,7 +23,7 @@ class CommentSerializer(AbstractSerializer):
 
     def validate_author(self, value):
         if self.context["request"].user != value:
-            raise ValidationError("You can't create a comment for another user.")
+            raise ValidationError("You can't create a post for another user.")
         return value
 
     def validate_post(self, value):
@@ -40,10 +40,11 @@ class CommentSerializer(AbstractSerializer):
     def to_representation(self, instance):
         rep = super().to_representation(instance)
         author = User.objects.get_object_by_public_id(rep["author"])
-        rep["author"] = UserSerializer(author, context=self.context).data
+        rep["author"] = UserSerializer(author).data
         return rep
 
     class Meta:
         model = Comment
+        # List of all the fields that can be included in a request or a response
         fields = ['id', 'post', 'author', 'body', 'edited', 'liked', 'likes_count', 'created', 'updated']
         read_only_fields = ["edited"]

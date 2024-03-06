@@ -12,4 +12,4 @@ class Comment(AbstractModel):
     objects = CommentManager()
 
     def __str__(self):
-        return self.author.name  # Corrected the return statement to fetch the name of the author
+        return self.author.name  

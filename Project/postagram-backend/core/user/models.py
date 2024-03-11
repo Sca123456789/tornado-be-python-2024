@@ -10,7 +10,7 @@ class UserManager(BaseUserManager, AbstractManager):
         if email is None:
             raise TypeError('Users must have an email.')
         if password is None:
-            raise TypeError('User must have an password.')
+            raise TypeError('User must have a password.')
         user = self.model(username=username, email=self.normalize_email(email), **kwargs)
         user.set_password(password)
         user.save(using=self._db)
@@ -25,12 +25,16 @@ class UserManager(BaseUserManager, AbstractManager):
         if email is None:
             raise TypeError('Superusers must have an email.')
         if username is None:
-            raise TypeError('Superusers must have an username.')
+            raise TypeError('Superusers must have a username.')
         user = self.create_user(username, email, password, **kwargs)
         user.is_superuser = True
         user.is_staff = True
         user.save(using=self._db)
         return user
+
+def user_directory_path(instance, filename):
+    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
+    return 'user_{0}/{1}'.format(instance.public_id, filename)
 
 class User(AbstractModel, AbstractBaseUser, PermissionsMixin):
     username = models.CharField(db_index=True, max_length=255, unique=True)
@@ -41,7 +45,7 @@ class User(AbstractModel, AbstractBaseUser, PermissionsMixin):
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     bio = models.TextField(null=True)
-    avatar = models.ImageField(null=True)
+    avatar = models.ImageField(null=True, blank=True, upload_to=user_directory_path)
     posts_liked = models.ManyToManyField("core_post.Post", related_name="liked_by")
     comments_liked = models.ManyToManyField("core_comment.Comment", related_name="commented_by")
 
@@ -79,3 +83,4 @@ class User(AbstractModel, AbstractBaseUser, PermissionsMixin):
     def has_liked_comment(self, comment):
         """Return True if the user has liked a `comment`; else False"""
         return self.comments_liked.filter(pk=comment.pk).exists()
+

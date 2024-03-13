@@ -1,7 +1,5 @@
 export default function Home() {
   return (
-    <>
-      <h1>Home Page</h1>
-    </>
-  );
+    <div className=" w-full h-60 brightness-100">tftfftfftyf</div>
+    );
 }

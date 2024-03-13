@@ -1,15 +1,12 @@
-// src/components/authentication/LoginForm.jsx
-
-import React, { useState } from "react";
+import { useState } from "react";
 import { Form, Button } from "react-bootstrap";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useUserActions } from "../../hooks/user.actions"; // Import the useUserActions hook
 
 function LoginForm() {
-  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({ username: "", email: "", password: "" });
   const [error, setError] = useState(null);
+  const userActions = useUserActions(); // Initialize the useUserActions hook
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -20,22 +17,10 @@ function LoginForm() {
     setValidated(true);
     const data = {
       username: form.username,
+      email: form.email,
       password: form.password,
-      email: form.email, // Add email field to the data object
     };
-    axios
-      .post("http://localhost:8000/api/auth/login/", data)
-      .then((res) => {
-        localStorage.setItem(
-          "auth",
-          JSON.stringify({
-            access: res.data.access,
-            refresh: res.data.refresh,
-            user: res.data.user,
-          })
-        );
-        navigate("/");
-      })
+    userActions.login(data) // Use the login function from the useUserActions hook
       .catch((err) => {
         if (err.message) {
           setError(err.request.response);
@@ -69,7 +54,7 @@ function LoginForm() {
         <Form.Label>Email address</Form.Label>
         <Form.Control
           value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })} // Add email field
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
           required
           type="email"
           placeholder="Enter email"

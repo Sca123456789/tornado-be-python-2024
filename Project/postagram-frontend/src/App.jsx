@@ -1,4 +1,4 @@
-import React from "react";
+// import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Home from "./pages/Home";
@@ -13,9 +13,9 @@ function App() {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
+            // <ProtectedRoute>
               <Home />
-            </ProtectedRoute>
+            // {/* </ProtectedRoute> */}
           }
         />
         {/* Route for login page */}

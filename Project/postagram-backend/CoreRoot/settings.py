@@ -86,6 +86,7 @@ WSGI_APPLICATION = "CoreRoot.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 
+<<<<<<< Updated upstream
 # DATABASES = {
 #     "default": {
 #         "ENGINE": "django.db.backends.postgresql_psycopg2",
@@ -112,6 +113,19 @@ DATABASES = {
         "PORT": "5432",
     }
 }
+=======
+ DATABASES = {
+     "default": {
+         "ENGINE": "django.db.backends.postgresql_psycopg2",
+         "NAME": "lilpostagram",
+         "USER": "postgres",
+         "PASSWORD": "12345678",
+         "HOST": "storage-1.c9064gwqqe44.eu-north-1.rds.amazonaws.com",
+         "PORT": "5432",
+     }
+ }
+
+>>>>>>> Stashed changes
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
